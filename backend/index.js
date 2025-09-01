@@ -9,10 +9,25 @@ const __dirname = dirname(__filename);
 const macDetector = process.platform == 'darwin';
 const devDetector = process.env.NODE_ENV !== 'development';
 let mainWindow;
+let backend;
+
+
+function startBackend(){
+    try{
+        backend = spawn('node', [path.join(__dirname, 'server.js')], {
+            stdio: ['pipe', 'pipe', 'pipe'],
+            shell: false
+        })
+        console.log("Iniciando servidor...")
+    }catch(error){
+        console.log(`Something went wrong: ${error}`)
+    }
+}
 
 
 function createMainWindow(){
     const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
+    
 
     mainWindow = new BrowserWindow({
         title: 'Clock-in',
@@ -43,8 +58,8 @@ function createMainWindow(){
 }
 
 app.whenReady().then(() => {
-    // startBackend();
-    createMainWindow();
+    startBackend();
+        createMainWindow();
 
     ipcMain.on('window-minimize', () => {
         if (mainWindow && !mainWindow.isDestroyed()) {
@@ -80,6 +95,7 @@ app.whenReady().then(() => {
 })
 
 app.on('window-all-closed', () => {
+    
     if(!macDetector){
         app.quit();
     }

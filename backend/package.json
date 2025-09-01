@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "electron ."
+    "dev": "node server.js && electron ."
   },
   "keywords": [],
   "author": "",
@@ -12,5 +12,12 @@
   "type": "module",
   "devDependencies": {
     "electron": "^37.4.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.4",
+    "prisma": "^6.15.0"
   }
 }
